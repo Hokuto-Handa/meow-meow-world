@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  web:
+    image: nginx
+    ports:
+      - 8000:80
+    volumes:
+      - ./app/build:/usr/share/nginx/html
+
+  php:
+    build: ./php
+    volumes:
+      -  ./php:/var/www/html/
+    ports:
+      - 8080:80
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: database1
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpass
+
+    volumes:
+      - sqlvol:/var/lib/mysql
+
+volumes:
+  sqlvol:
