@@ -1,8 +1,6 @@
 <?php
 
-define('DNS', 'mysql:host=mysql;dbname=database1');
-define('USER', 'user');
-define('PASS', 'userpass');
+require_once(__DIR__ . '/config.php');
 
 class DataBase{
   private $_pdo;
