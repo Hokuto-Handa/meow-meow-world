@@ -26,9 +26,56 @@ class DataBase{
     header('Content-type:application/json; cahrset=UTF-8');
     header("Access-Control-Allow-Origin: *");
     echo json_encode($animal);
-    var_dump($_POST);
     exit;
   }
 
+  //mysqlから帰ってくる型
+  // if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+  //   $post = [
+  //     [
+  //       "id" => "0",
+  //       "age" => "3",
+  //       "name" => "namename"
+  //     ],
+  //     [
+  //       "id" => "3",
+  //       "age" => "34",
+  //       "name" => "na242mename"
+  //     ],
+  //   ];
+  // }
+
+  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $id;
+    $name;
+    $age;
+    if(isset($_POST["id"])){
+      $id = $_POST["id"];
+    } else {
+      $id = 11999;
+    }
+    if(isset($_POST["name"])){
+      $name = $_POST["name"];
+    } else {
+      $name = "no_name";
+    }
+    if (isset($_POST["age"])) {
+      $age = $_POST["age"];
+    } else {
+      $age = 0;
+    }
+
+    $post = [[
+      "id" => $id,
+      "age" => $age,
+      "name" => $name
+    ]];
+
+
+    header('Content-type:application/json; cahrset=UTF-8');
+    header("Access-Control-Allow-Origin: *");
+    echo json_encode($post);
+    exit;
+  }
 
 ?>

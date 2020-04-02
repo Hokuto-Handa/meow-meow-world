@@ -32,6 +32,7 @@ class App extends Component {
   }
   renderTable(){
     const { animals } = this.props;
+    // console.log(animals);
     const tbody = animals.map((animal)=>{
       return(
       <tr key={animal.id}>

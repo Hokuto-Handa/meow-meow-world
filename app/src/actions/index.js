@@ -8,20 +8,21 @@ export const get = () => async (dispatch) => {
   dispatch({type: GET, animals});
 }
 
+// export const postIt = (values) => async (dispatch) => {
+//   const msg = {
+//     id: 119,
+//     age: 342,
+//     name: 'Fred'
+//   };
+//   const response = await axios.post('http://localhost:8080/', "s");
+//   dispatch({type: POST, response});
+// }
+
 export const postIt = (values) => async (dispatch) => {
-  // const msg = {name: "name", age: 3};
-  // console.log(values);
-  // const response = await axios.post('http://localhost:8080/', msg);
-  // dispatch({type: POST, response});
-  //
-  axios.post('http://localhost:8080/', {
-    name: 'Fred',
-    age: 3
-  })
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-}
+  console.log(values);
+  let params = new URLSearchParams();
+  params.append("age", values.age);
+  params.append("name", values.name);
+  const response = await axios.post("http://localhost:8080/", params);
+  dispatch({ type: POST, response });
+};
