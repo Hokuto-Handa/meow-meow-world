@@ -20,9 +20,15 @@ class DataBase{
 }
 
   $data = new DataBase();
-  $animal = $data->getData();
-  header('Content-type:application/json; cahrset=UTF-8');
-  header("Access-Control-Allow-Origin: *");
-  echo json_encode($animal);
-  exit;
+
+  if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    $animal = $data->getData();
+    header('Content-type:application/json; cahrset=UTF-8');
+    header("Access-Control-Allow-Origin: *");
+    echo json_encode($animal);
+    var_dump($_POST);
+    exit;
+  }
+
+
 ?>
