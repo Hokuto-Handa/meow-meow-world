@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form';
-
+import { Link } from 'react-router-dom';
 import { postIt } from '../actions';
+
+function LinkArea() {
+  return(
+    <div>
+      <Link to="/">Index</Link>
+    </div>
+  );
+}
 
 class Post extends Component {
   constructor(props){
@@ -39,6 +47,9 @@ class Post extends Component {
         <main>
           {this.renderFormArea()}
         </main>
+        <footer>
+        <LinkArea/>
+        </footer>
       </div>
     );
   }
