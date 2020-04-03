@@ -16,11 +16,12 @@ class Post extends Component {
   constructor(props){
     super(props);
     this.postSubmit = this.postSubmit.bind(this);
-    // this.renderFormArea = this.renderFormArea.bind(this);
+    this.renderFormArea = this.renderFormArea.bind(this);
   }
   async postSubmit(v){
-    const { postIt } = this.props;
+    const { postIt, history } = this.props;
     await postIt(v);
+    history.push('/');
   }
   renderFormArea(){
     const {handleSubmit} = this.props;

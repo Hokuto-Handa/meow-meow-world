@@ -7,7 +7,9 @@ import { Link } from 'react-router-dom';
 function LinkArea() {
   return(
     <div>
-      <Link to="/post">POST</Link>
+      <div>
+        <Link to="/post">POST</Link>
+      </div>
     </div>
   );
 }
@@ -33,10 +35,10 @@ class App extends Component {
   renderTable(){
     const { animals } = this.props;
     // console.log(animals);
-    const tbody = animals.map((animal)=>{
+    const tbody = animals.map((animal, index)=>{
       return(
       <tr key={animal.id}>
-        <td>{animal.id}</td>
+        <td><Link to={"/edit/"+index}>{index}</Link></td>
         <td>{animal.name}</td>
         <td>{animal.age}</td>
       </tr>
@@ -45,9 +47,9 @@ class App extends Component {
       <table>
         <thead>
           <tr>
-            <th>id</th>
-            <th>name</th>
-            <th>age</th>
+            <th>No.</th>
+            <th>Name</th>
+            <th>Age</th>
           </tr>
         </thead>
         <tbody>

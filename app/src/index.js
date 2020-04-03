@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
 import Post from './components/Post';
+import Edit from './components/Edit';
 import * as serviceWorker from './serviceWorker';
 
 import reducer from './reducers';
@@ -23,6 +24,7 @@ ReactDOM.render(
       <Router>
         <Switch>
           <Route path="/post" component={Post}/>
+          <Route path="/edit/:id" component={Edit}/>
           <Route path="/" component={App} />
         </Switch>
       </Router>
