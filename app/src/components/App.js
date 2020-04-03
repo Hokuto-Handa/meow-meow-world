@@ -37,8 +37,8 @@ class App extends Component {
       return(
       <tr key={animal.id}>
         <td>{animal.id}</td>
-        <td>{animal.age}</td>
         <td>{animal.name}</td>
+        <td>{animal.age}</td>
       </tr>
     )});
     return(
@@ -46,8 +46,8 @@ class App extends Component {
         <thead>
           <tr>
             <th>id</th>
-            <th>age</th>
             <th>name</th>
+            <th>age</th>
           </tr>
         </thead>
         <tbody>
