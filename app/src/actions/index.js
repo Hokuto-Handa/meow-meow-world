@@ -6,8 +6,8 @@ export const EDIT = 'EDIT';
 export const ERASE = 'ERASE';
 
 export const get = () => async (dispatch) => {
-  const data = await axios.get('http://localhost:8080/');
-  dispatch({type: GET, data});
+  const animals = await axios.get('http://localhost:8080/');
+  dispatch({type: GET, animals});
 }
 
 export const postIt = (values) => async (dispatch) => {
@@ -15,7 +15,6 @@ export const postIt = (values) => async (dispatch) => {
   params.append("type", "post");
   params.append("age", values.age);
   params.append("name", values.name);
-  params.append("token", values.token);
   const response = await axios.post("http://localhost:8080/", params);
   console.log(response);
   dispatch({ type: POST, response });
@@ -23,20 +22,18 @@ export const postIt = (values) => async (dispatch) => {
 
 export const edit = (values) => async (dispatch) => {
   let params = new URLSearchParams();
-  params.append("type", "put");
+  params.append("type", "edit");
   params.append("id", values.id);
   params.append("age", values.age);
   params.append("name", values.name);
-  params.append("token", values.token);
   const response = await axios.post("http://localhost:8080/", params);
   dispatch({ type: EDIT, response });
 };
 
-export const erase = (id, token) => async (dispatch) => {
+export const erase = (id) => async (dispatch) => {
   let params = new URLSearchParams();
   params.append("type", "delete");
   params.append("id", id);
-  params.append("token", token);
   const response = await axios.post("http://localhost:8080/", params);
   dispatch({ type: ERASE, response });
 };

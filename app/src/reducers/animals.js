@@ -5,8 +5,9 @@ const initialState = [{id: 0, name: '', age: 0}];
 export default (state=initialState, action) => {
   switch (action.type) {
     case GET:
-      console.log('post きた');
-      const newState = action.data.data.animal;
+      console.log('get きた');
+      const newState = action.animals.data;
+      console.log(action);
       return newState;
     case POST:
       console.log('post きた');
