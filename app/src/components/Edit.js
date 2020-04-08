@@ -29,9 +29,9 @@ class Edit extends Component {
     history.push('/');
   }
   async handleDelete(){
-    const { animal, history, erase } = this.props;
+    const { animal, history, erase, token } = this.props;
     const id = animal.id;
-    await erase(id);
+    await erase(id, token);
     history.push('/');
   }
   renderFormArea(){
@@ -46,6 +46,7 @@ class Edit extends Component {
           <label htmlFor="age">Age</label>
           <Field name="age" component="input" type="text" />
         </div>
+        <Field name="token" component="input" type="hidden" />
         <button type="submit">EDIT</button>
       </form>
     );
@@ -70,8 +71,14 @@ class Edit extends Component {
 
 const mapStateToProps = (state, ownProps) =>{
   const animal = state.animals[ownProps.match.params.id];
+  if(animal) {
+  animal.token = state.token.token;
+  }
   return(
-    {initialValues: animal, animal}
+    {
+      initialValues: animal,
+      animal,
+    }
   )};
 const mapDispatchToProps = (dispatch) => ({
   edit: (values)=> dispatch(edit(values)),

@@ -53,7 +53,7 @@ class App extends Component {
           </tr>
         </thead>
         <tbody>
-          {tbody}
+        {tbody}
         </tbody>
       </table>
     )

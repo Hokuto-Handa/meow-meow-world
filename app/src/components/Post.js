@@ -18,6 +18,10 @@ class Post extends Component {
     this.postSubmit = this.postSubmit.bind(this);
     this.renderFormArea = this.renderFormArea.bind(this);
   }
+  componentDidMount(){
+    const {token} = this.props;
+    console.log(token);
+  }
   async postSubmit(v){
     const { postIt, history } = this.props;
     await postIt(v);
@@ -34,6 +38,9 @@ class Post extends Component {
         <div>
           <label htmlFor="age">Age</label>
           <Field name="age" component="input" type="text" />
+        </div>
+        <div>
+          <Field name="token" component="input" type="hidden" />
         </div>
         <button type="submit">Submit</button>
       </form>
@@ -56,9 +63,11 @@ class Post extends Component {
   }
 }
 
-const mapStateToProps = (state) =>(
-  {animals: state.animals}
-);
+const mapStateToProps = (state) => {
+  const token = state.token
+  return (
+  {initialValues: token, token}
+)};
 const mapDispatchToProps = (dispatch) => ({
   postIt: (values)=> dispatch(postIt(values)),
 });
