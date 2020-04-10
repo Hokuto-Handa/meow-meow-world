@@ -41,6 +41,7 @@ class App extends Component {
         <td><Link to={"/edit/"+index}>{index}</Link></td>
         <td>{animal.name}</td>
         <td>{animal.age}</td>
+        <td><img className="animal_img" alt={animal.name} src={`http://localhost:8080/images/${animal.image}`} /></td>
       </tr>
     )});
     return(

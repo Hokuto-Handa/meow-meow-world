@@ -10,14 +10,19 @@ export const get = () => async (dispatch) => {
   dispatch({type: GET, animals});
 }
 
-export const postIt = (values) => async (dispatch) => {
-  let params = new URLSearchParams();
-  params.append("type", "post");
-  params.append("age", values.age);
-  params.append("name", values.name);
-  const response = await axios.post("http://localhost:8080/", params);
+export const postIt = (params) => async (dispatch) => {
+  // let params = new URLSearchParams();
+  // params.append("type", "post");
+  // params.append("age", values.age);
+  // params.append("name", values.name);
+  // console.log(values);
+
+  const response = await axios.post("http://localhost:8080/", params,{
+    headers: {
+      "content-type": "multipart/form-data"}
+  });
   console.log(response);
-  dispatch({ type: POST, response });
+  dispatch({ type: POST, });
 };
 
 export const edit = (values) => async (dispatch) => {
@@ -35,5 +40,6 @@ export const erase = (id) => async (dispatch) => {
   params.append("type", "delete");
   params.append("id", id);
   const response = await axios.post("http://localhost:8080/", params);
+  console.log(response);
   dispatch({ type: ERASE, response });
 };

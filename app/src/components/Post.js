@@ -1,8 +1,45 @@
-import React, { Component } from 'react';
+import React, { Component, useCallback } from 'react';
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form';
+// import Dropzone from 'react-dropzone'
+import {useDropzone} from 'react-dropzone'
 import { Link } from 'react-router-dom';
 import { postIt } from '../actions';
+
+let params = new FormData();
+let file = [];
+
+function Basic() {
+  //params へのデータ追加はSUBMITにしなければならない
+  const onDrop = useCallback(acceptedFiles => {
+    // params.append("image", acceptedFiles[0]);←無効
+    file = acceptedFiles;
+  }, [])
+
+  const {getRootProps, getInputProps, isDragActive, acceptedFiles} = useDropzone({onDrop})
+  const files = acceptedFiles.map(file => (
+    <li key={file.path}>
+      {file.path} - {file.size} bytes
+    </li>
+  ));
+
+  return (
+    <section>
+      <div {...getRootProps()}>
+        <input {...getInputProps()} />
+        {
+          isDragActive ?
+            <p>Drop the files here ...</p> :
+            <p>Drag 'n' drop some files here, or click to select files</p>
+        }
+      </div>
+      <aside>
+          <h4>Files</h4>
+          <ul>{files}</ul>
+      </aside>
+    </section>
+  )
+}
 
 function LinkArea() {
   return(
@@ -16,11 +53,17 @@ class Post extends Component {
   constructor(props){
     super(props);
     this.postSubmit = this.postSubmit.bind(this);
-    this.renderFormArea = this.renderFormArea.bind(this);
+    // this.renderFormArea = this.renderFormArea.bind(this);
   }
-  async postSubmit(v){
+  async postSubmit(values){
     const { postIt, history } = this.props;
-    await postIt(v);
+    params.append("type", "post");
+    params.append("age", values.age);
+    params.append("name", values.name);
+    params.append("image", file[0]);
+    // console.log(params);
+    await postIt(params);
+    params = new FormData();
     history.push('/');
   }
   renderFormArea(){
@@ -35,6 +78,7 @@ class Post extends Component {
           <label htmlFor="age">Age</label>
           <Field name="age" component="input" type="text" />
         </div>
+        <Basic />
         <button type="submit">Submit</button>
       </form>
     );

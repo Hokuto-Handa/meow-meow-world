@@ -2,7 +2,8 @@
 
 require_once(__DIR__ . '/config.php');
 header('Content-type:application/json; cahrset=UTF-8');
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: *");
+// header("Access-Control-Allow-Origin: http://localhost:3000");
 
 class DataBase{
   private $_pdo;
@@ -19,15 +20,23 @@ class DataBase{
     $stmt = $this->_pdo->query("select * from animals");
     return $stmt->fetchAll(\PDO::FETCH_OBJ);
   }
-  public function postData($name, $age){
-    $stmt = $this->_pdo->prepare("insert into animals (name, age)  values (?, ?)");
-    $stmt->execute([$name, $age]);
+  public function postData($name, $age, $imageName){
+    $stmt = $this->_pdo->prepare("insert into animals (name, age, image)  values (?, ?, ?)");
+    $stmt->execute([$name, $age, $imageName]);
   }
   public function editData($id, $name, $age){
     $stmt = $this->_pdo->prepare("update animals set name = ?, age = ? where id = ?");
     $stmt->execute([$name, $age, $id]);
   }
   public function deleteData($id){
+    $stmt = $this->_pdo->query("select image from animals where id = " . $id);
+    $imageName = $stmt->fetchColumn();
+    $imagePath = "./images/" . $imageName;
+    if (unlink($imagePath)){
+      echo '削除に成功しました。';
+    }else{
+      echo '削除に失敗しました。';
+    }
     $stmt = $this->_pdo->query("delete from animals where id = " . $id);
   }
 }
@@ -43,24 +52,45 @@ class DataBase{
     $id;
     $name;
     $age;
+    $image;
     if(isset($_POST["id"])){
       $id = $_POST["id"];
-    } else {
-      $id = "";
     }
     if(isset($_POST["name"])){
       $name = $_POST["name"];
-    } else {
-      $name = "no_name";
     }
     if (isset($_POST["age"])) {
       $age = $_POST["age"];
-    } else {
-      $age = 0;
+    }
+    if (isset($_FILES["image"]["tmp_name"])) {
+      $image = $_FILES["image"]["tmp_name"];
     }
     switch ($_POST["type"]) {
       case 'post':
-        $data->postData($name, $age);
+      //image を imagesフォルダへ
+      // echo $_POST["image"];
+      // $data = [
+      //   "name" => $name,
+      //   "age" => $age,
+      //   "image" => $image,
+      // ];
+      // echo json_encode($_FILES["image"]["tmp_name"]);
+        $imageName;
+        if ($image == null) {
+          $imageName = "no_image.png";
+        } else {
+          $imageName = sprintf(
+            '%s_%s.png',
+            time(),
+            sha1(uniqid(mt_rand(), true))
+          );
+          $path = __DIR__ . "/images" . "/" . $imageName;
+          $res = move_uploaded_file($_FILES["image"]["tmp_name"], $path);
+          if ($res === false) {
+            throw new \Exception('Could not upload!');
+          }
+        }
+        $data->postData($name, $age, $imageName);
         break;
       case 'edit':
         $data->editData($id, $name, $age);
