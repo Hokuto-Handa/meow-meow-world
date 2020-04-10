@@ -7,6 +7,7 @@ header("Access-Control-Allow-Origin: *");
 
 class DataBase{
   private $_pdo;
+
   public function __construct(){
     try {
       $this->_pdo = new \PDO(DNS, USER, PASS);
@@ -20,16 +21,31 @@ class DataBase{
     $stmt = $this->_pdo->query("select * from animals");
     return $stmt->fetchAll(\PDO::FETCH_OBJ);
   }
-  public function postData($name, $age, $imageName){
+  public function postData($name, $age){
+    $imageName = $this->_saveImage();
     $stmt = $this->_pdo->prepare("insert into animals (name, age, image)  values (?, ?, ?)");
     $stmt->execute([$name, $age, $imageName]);
   }
-  public function editData($id, $name, $age){
+  public function editDataWithoutImage($id, $name, $age){
     $stmt = $this->_pdo->prepare("update animals set name = ?, age = ? where id = ?");
     $stmt->execute([$name, $age, $id]);
   }
+  public function editDataWithImage($id, $name, $age){
+    //古いイメージの削除
+    $this->_removeImage($id);
+    //新しいイメージの保存
+    $imageName = $this->_saveImage();
+    $stmt = $this->_pdo->prepare("update animals set name = ?, age = ?, image = ? where id = ?");
+    $stmt->execute([$name, $age, $imageName, $id]);
+  }
   public function deleteData($id){
     //イメージの削除
+    $this->_removeImage($id);
+    //sqlから削除
+    $stmt = $this->_pdo->query("delete from animals where id = " . $id);
+  }
+
+  private function _removeImage($id){
     $stmt = $this->_pdo->query("select image from animals where id = " . $id);
     $imageName = $stmt->fetchColumn();
     $imagePath = "./images/" . $imageName;
@@ -39,23 +55,38 @@ class DataBase{
     if (is_numeric($headPath)) {
       unlink($imagePath);
     }
-    //sqlから削除
-    $stmt = $this->_pdo->query("delete from animals where id = " . $id);
+  }
+  private function _saveImage(){
+    $image = $_FILES["image"]["tmp_name"];
+    if ($image == null) {
+      $imageName = "no_image.png";
+    } else {
+      $imageName = sprintf(
+        '%s_%s.png',
+        time(),
+        sha1(uniqid(mt_rand(), true))
+      );
+      $path = __DIR__ . "/images" . "/" . $imageName;
+      $res = move_uploaded_file($_FILES["image"]["tmp_name"], $path);
+      if ($res === false) {
+        throw new \Exception('Could not upload!');
+      }
+    }
+    return $imageName;
   }
 }
 
   $data = new DataBase();
-
+  $id;
+  $name;
+  $age;
+  $image;
   if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $animal = $data->getData();
     echo json_encode($animal);
   }
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id;
-    $name;
-    $age;
-    $image;
     if(isset($_POST["id"])){
       $id = $_POST["id"];
     }
@@ -65,38 +96,20 @@ class DataBase{
     if (isset($_POST["age"])) {
       $age = $_POST["age"];
     }
-    if (isset($_FILES["image"]["tmp_name"])) {
-      $image = $_FILES["image"]["tmp_name"];
-    }
+    // if (isset($_FILES["image"]["tmp_name"])) {
+    //
+    // }
+
     switch ($_POST["type"]) {
       case 'post':
-      //image を imagesフォルダへ
-      // echo $_POST["image"];
-      // $data = [
-      //   "name" => $name,
-      //   "age" => $age,
-      //   "image" => $image,
-      // ];
-      // echo json_encode($_FILES["image"]["tmp_name"]);
-        $imageName;
-        if ($image == null) {
-          $imageName = "no_image.png";
-        } else {
-          $imageName = sprintf(
-            '%s_%s.png',
-            time(),
-            sha1(uniqid(mt_rand(), true))
-          );
-          $path = __DIR__ . "/images" . "/" . $imageName;
-          $res = move_uploaded_file($_FILES["image"]["tmp_name"], $path);
-          if ($res === false) {
-            throw new \Exception('Could not upload!');
-          }
-        }
-        $data->postData($name, $age, $imageName);
+        $data->postData($name, $age);
         break;
       case 'edit':
-        $data->editData($id, $name, $age);
+        if (!isset($_FILES["image"]["tmp_name"])) {
+          $data->editDataWithoutImage($id, $name, $age);
+        }else{
+          $data->editDataWithImage($id, $name, $age);
+        }
         break;
       case 'delete':
         $data->deleteData($id);
@@ -105,5 +118,12 @@ class DataBase{
         break;
     }
   }
+  // json_encodeする際の型
+  // $data = [
+  //   "name" => $name,
+  //   "age" => $age,
+  //   "image" => $image,
+  // ];
+  // echo json_encode($_FILES["image"]["tmp_name"]);
 
 ?>

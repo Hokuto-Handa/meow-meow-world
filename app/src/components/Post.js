@@ -9,7 +9,7 @@ import { postIt } from '../actions';
 let formData = new FormData();
 let file = [];
 
-function Basic() {
+function Dropzone() {
   //params へのデータ追加はSUBMITにしなければならない
   const onDrop = useCallback(acceptedFiles => {
     // params.append("image", acceptedFiles[0]);←無効
@@ -24,17 +24,16 @@ function Basic() {
   ));
 
   return (
-    <section>
+    <section className="dropzone">
       <div {...getRootProps()}>
         <input {...getInputProps()} />
         {
           isDragActive ?
             <p>Drop the files here ...</p> :
-            <p>Drag 'n' drop some files here, or click to select files</p>
+            <p>【画像】ここをクリックするかドラッグアンドドロップしてね</p>
         }
       </div>
       <aside>
-          <h4>Files</h4>
           <ul>{files}</ul>
       </aside>
     </section>
@@ -62,8 +61,10 @@ class Post extends Component {
     formData.append("name", values.name);
     formData.append("image", file[0]);
     await postIt(formData);
+    //次のpostに備えて初期化
     formData = new FormData();
     history.push('/');
+    file = [];
   }
   renderFormArea(){
     const {handleSubmit} = this.props;
@@ -77,7 +78,7 @@ class Post extends Component {
           <label htmlFor="age">Age</label>
           <Field name="age" component="input" type="text" />
         </div>
-        <Basic />
+        <Dropzone />
         <button type="submit">Submit</button>
       </form>
     );

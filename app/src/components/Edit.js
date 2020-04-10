@@ -1,12 +1,44 @@
-import React, { Component } from 'react';
+import React, { Component, useCallback } from 'react';
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form';
+import { useDropzone } from 'react-dropzone'
 import { Link } from 'react-router-dom';
 // import { get } from '../actions';
 import { edit, erase, postIt } from '../actions';
 
 let formData = new FormData();
 let file = [];
+
+function Dropzone() {
+  //params へのデータ追加はSUBMIT内でしなければならない
+  const onDrop = useCallback(acceptedFiles => {
+    // params.append("image", acceptedFiles[0]);←無効
+    file = acceptedFiles;
+  }, [])
+
+  const {getRootProps, getInputProps, isDragActive, acceptedFiles} = useDropzone({onDrop})
+  const files = acceptedFiles.map(file => (
+    <li key={file.path}>
+      {file.path} - {file.size} bytes
+    </li>
+  ));
+
+  return (
+    <section>
+      <div {...getRootProps()}>
+        <input {...getInputProps()} />
+        {
+          isDragActive ?
+            <p>Drop the files here ...</p> :
+            <p>Drag 'n' drop some files here, or click to select files</p>
+        }
+      </div>
+      <aside>
+          <ul>{files}</ul>
+      </aside>
+    </section>
+  )
+}
 
 function LinkArea() {
   return(
@@ -29,7 +61,15 @@ class Edit extends Component {
     formData.append("id", animal.id);
     formData.append("name", values.name);
     formData.append("age", values.age);
+    if (file[0]) {
+      formData.append("image", file[0]);
+      console.log("ある");
+    }else{
+      console.log("ない")
+    }
     await postIt(formData);
+    //次のEDITに備えて初期化
+    file = [];
     formData = new FormData();
     history.push('/');
   }
@@ -42,7 +82,7 @@ class Edit extends Component {
     history.push('/');
   }
   renderFormArea(){
-    const {handleSubmit} = this.props;
+    const { animal, handleSubmit } = this.props;
     return(
       <form onSubmit={handleSubmit(this.editData)}>
         <div>
@@ -53,6 +93,10 @@ class Edit extends Component {
           <label htmlFor="age">Age</label>
           <Field name="age" component="input" type="text" />
         </div>
+        <div>
+          <img className="animal_img" alt={animal.name} src={`http://localhost:8080/images/${animal.image}`} />
+        </div>
+        <Dropzone />
         <button type="submit">EDIT</button>
       </form>
     );
