@@ -5,22 +5,15 @@ export const POST = 'POST';
 export const EDIT = 'EDIT';
 export const ERASE = 'ERASE';
 
+const headers = {"content-type": "multipart/form-data"}
+
 export const get = () => async (dispatch) => {
   const animals = await axios.get('http://localhost:8080/');
   dispatch({type: GET, animals});
 }
 
-export const postIt = (params) => async (dispatch) => {
-  // let params = new URLSearchParams();
-  // params.append("type", "post");
-  // params.append("age", values.age);
-  // params.append("name", values.name);
-  // console.log(values);
-
-  const response = await axios.post("http://localhost:8080/", params,{
-    headers: {
-      "content-type": "multipart/form-data"}
-  });
+export const postIt = (formData) => async (dispatch) => {
+  const response = await axios.post("http://localhost:8080/", formData, {headers});
   console.log(response);
   dispatch({ type: POST, });
 };

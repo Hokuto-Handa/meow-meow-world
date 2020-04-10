@@ -29,14 +29,17 @@ class DataBase{
     $stmt->execute([$name, $age, $id]);
   }
   public function deleteData($id){
+    //イメージの削除
     $stmt = $this->_pdo->query("select image from animals where id = " . $id);
     $imageName = $stmt->fetchColumn();
     $imagePath = "./images/" . $imageName;
-    if (unlink($imagePath)){
-      echo '削除に成功しました。';
-    }else{
-      echo '削除に失敗しました。';
+    //imagePathの先頭6文字が数値だったらイメージを消す[cat.png等は消さない]
+    $pathLength = strlen($imageName);
+    $headPath = substr($imageName, 0, -1 * $pathLength + 6);
+    if (is_numeric($headPath)) {
+      unlink($imagePath);
     }
+    //sqlから削除
     $stmt = $this->_pdo->query("delete from animals where id = " . $id);
   }
 }
@@ -99,7 +102,6 @@ class DataBase{
         $data->deleteData($id);
         break;
       default:
-        // code...
         break;
     }
   }

@@ -3,7 +3,10 @@ import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 // import { get } from '../actions';
-import { edit, erase } from '../actions';
+import { edit, erase, postIt } from '../actions';
+
+let formData = new FormData();
+let file = [];
 
 function LinkArea() {
   return(
@@ -21,15 +24,21 @@ class Edit extends Component {
     this.handleDelete = this.handleDelete.bind(this);
   }
   async editData(values){
-    const { animal, edit, history } = this.props;
-    values.id = animal.id;
-    await edit(values);
+    const { animal, postIt, history } = this.props;
+    formData.append("type", "edit");
+    formData.append("id", animal.id);
+    formData.append("name", values.name);
+    formData.append("age", values.age);
+    await postIt(formData);
+    formData = new FormData();
     history.push('/');
   }
   async handleDelete(){
-    const { animal, history, erase } = this.props;
-    const id = animal.id;
-    await erase(id);
+    const { animal, postIt, history } = this.props;
+    formData.append("type", "delete");
+    formData.append("id", animal.id);
+    await postIt(formData);
+    formData = new FormData();
     history.push('/');
   }
   renderFormArea(){
@@ -74,8 +83,9 @@ const mapStateToProps = (state, ownProps) =>{
     }
   )};
 const mapDispatchToProps = (dispatch) => ({
-  edit: (values)=> dispatch(edit(values)),
-  erase: (id)=> dispatch(erase(id)),
+  // edit: (values)=> dispatch(edit(values)),
+  // erase: (id)=> dispatch(erase(id)),
+  postIt: (formData)=> dispatch(postIt(formData)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({form:'editman'})(Edit));

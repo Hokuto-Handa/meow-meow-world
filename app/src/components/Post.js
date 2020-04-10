@@ -6,7 +6,7 @@ import {useDropzone} from 'react-dropzone'
 import { Link } from 'react-router-dom';
 import { postIt } from '../actions';
 
-let params = new FormData();
+let formData = new FormData();
 let file = [];
 
 function Basic() {
@@ -57,13 +57,12 @@ class Post extends Component {
   }
   async postSubmit(values){
     const { postIt, history } = this.props;
-    params.append("type", "post");
-    params.append("age", values.age);
-    params.append("name", values.name);
-    params.append("image", file[0]);
-    // console.log(params);
-    await postIt(params);
-    params = new FormData();
+    formData.append("type", "post");
+    formData.append("age", values.age);
+    formData.append("name", values.name);
+    formData.append("image", file[0]);
+    await postIt(formData);
+    formData = new FormData();
     history.push('/');
   }
   renderFormArea(){
@@ -105,7 +104,7 @@ const mapStateToProps = (state) => {
   {}
 )};
 const mapDispatchToProps = (dispatch) => ({
-  postIt: (values)=> dispatch(postIt(values)),
+  postIt: (formData)=> dispatch(postIt(formData)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({form:'postman'})(Post));
