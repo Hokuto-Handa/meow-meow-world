@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import React, { useEffect }  from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { get } from '../actions';
 import { Link } from 'react-router-dom';
@@ -14,27 +14,21 @@ function LinkArea() {
   );
 }
 
-class App extends Component {
-  constructor(props){
-    super(props)
-    this.renderHeader = this.renderHeader.bind(this);
-    this.renderTable = this.renderTable.bind(this);
-  }
-
-  componentDidMount(){
-    const { get } = this.props;
-    get();
-  }
-  renderHeader(){
-    return(
+const App = (props) => {
+  const dispatch = useDispatch();
+  const animals = useSelector(state => state.animals);
+  //ループしないようにからの配列を第２匹数に設定
+  useEffect(() => {
+     dispatch(get());
+     // eslint-disable-next-line
+   },[]);
+  const renderHeader = () => (
       <h1>
         Meow Meow World
       </h1>
-    );
-  }
-  renderTable(){
-    const { animals } = this.props;
-    // console.log(animals);
+  );
+  const renderTable = () => {
+    // const { animals } = this.props;
     const tbody = animals.map((animal, index)=>{
       return(
       <tr key={animal.id}>
@@ -59,23 +53,13 @@ class App extends Component {
       </table>
     )
   }
-
-  render(){
-    return(
-      <div>
-        {this.renderHeader()}
-        {this.renderTable()}
-        <LinkArea/>
-      </div>
-    );
-  }
+  return(
+    <div>
+      {renderHeader()}
+      {renderTable()}
+      <LinkArea/>
+    </div>
+  )
 }
 
-const mapStateToProps = (state) => ({
-  animals: state.animals,
-});
-
-const mapDispatchToProps = {
-  get,
-};
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import { useDropzone } from 'react-dropzone'
 import { Link } from 'react-router-dom';
 // import { get } from '../actions';
-import { edit, erase, postIt } from '../actions';
+import { postIt } from '../actions';
 
 let formData = new FormData();
 let file = [];

@@ -16,7 +16,7 @@ function Dropzone() {
     file = acceptedFiles;
   }, [])
 
-  const {getRootProps, getInputProps, isDragActive, acceptedFiles} = useDropzone({ accept: 'image/png', maxSize: 1024*1024})
+  const {getRootProps, getInputProps, isDragActive, acceptedFiles} = useDropzone({ onDrop, accept: 'image/png', maxSize: 1024*1024})
   const files = acceptedFiles.map(file => (
     <li key={file.path}>
       {file.path} - {Math.ceil(file.size/1024)} kb
