@@ -16,21 +16,21 @@ function Dropzone() {
     file = acceptedFiles;
   }, [])
 
-  const {getRootProps, getInputProps, isDragActive, acceptedFiles} = useDropzone({onDrop})
+  const {getRootProps, getInputProps, isDragActive, acceptedFiles} = useDropzone({ accept: 'image/png', maxSize: 1024*1024})
   const files = acceptedFiles.map(file => (
     <li key={file.path}>
-      {file.path} - {file.size} bytes
+      {file.path} - {Math.ceil(file.size/1024)} kb
     </li>
   ));
 
   return (
-    <section className="dropzone">
-      <div {...getRootProps()}>
+    <section>
+      <div {...getRootProps({className:"dropzone"})}>
         <input {...getInputProps()} />
         {
           isDragActive ?
             <p>Drop the files here ...</p> :
-            <p>【画像】ここをクリックするかドラッグアンドドロップしてね</p>
+            <p>【画像】ここをクリックするかドラッグアンドドロップしてね.pngのみ</p>
         }
       </div>
       <aside>
