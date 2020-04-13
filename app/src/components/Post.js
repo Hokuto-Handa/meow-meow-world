@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Form, Field } from 'react-final-form';
-import {useDropzone} from 'react-dropzone'
+import { useDropzone } from 'react-dropzone'
 import { Link, useHistory } from 'react-router-dom';
 import { postIt } from '../actions';
 
@@ -37,7 +37,7 @@ function Dropzone() {
   )
 }
 
-function AnimalForm() {
+function AnimalForm(props) {
   const dispatch = useDispatch();
   let history = useHistory();
   const onSubmit = async(values) => {
@@ -51,11 +51,27 @@ function AnimalForm() {
     history.push('/');
     file = [];
   }
+
+  const validate = (values) => {
+    // if (!values.name) {
+    //   alert("nameかけ")
+    //   return { name: 'Enter Name' };
+    // }
+    // if (!values.age) {
+    //   alert("ageかけ")
+    //   return { age: 'Enter Age' };
+    // }
+    // return;
+  }
+  const { initialValues } = props;
   return(
     <Form
       onSubmit={onSubmit}
-      render={({ handleSubmit }) => (
-        <form onSubmit={handleSubmit}>
+      validate={validate}
+      initialValues={initialValues}
+      render={({ handleSubmit, pristine, submitting }) => (
+        <form
+          onSubmit={handleSubmit}>
           <div>
             <label htmlFor="name">Name</label>
             <Field name="name" component="input" type="text" />
@@ -65,7 +81,7 @@ function AnimalForm() {
             <Field name="age" component="input" type="text" />
           </div>
           <Dropzone />
-          <button type="submit">Submit</button>
+          <button type="submit" disabled={submitting || pristine}>Submit</button>
         </form>
       )}
      />
@@ -87,7 +103,7 @@ function Post() {
         <h1>this is post</h1>
       </header>
       <main>
-        <AnimalForm />
+        <AnimalForm initialValues={{name:"noname"}} />
       </main>
       <footer>
       <LinkArea/>
