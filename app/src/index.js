@@ -4,6 +4,9 @@ import './index.css';
 import App from './components/App';
 import Post from './components/Post';
 import Edit from './components/Edit';
+import { BottomNavi } from './components/BottomNav';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { theme } from './theme';
 import * as serviceWorker from './serviceWorker';
 
 import reducer from './reducers';
@@ -21,13 +24,16 @@ const store = createStore(reducer, applyMiddleware(thunk));
 
 ReactDOM.render(
     <Provider store={store}>
-      <Router>
-        <Switch>
-          <Route path="/post" component={Post}/>
-          <Route path="/edit/:id" component={Edit}/>
-          <Route path="/" component={App} />
-        </Switch>
-      </Router>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Switch>
+            <Route path="/post" component={Post}/>
+            <Route path="/edit/:id" component={Edit}/>
+            <Route path="/" component={App} />
+          </Switch>
+          <BottomNavi />
+        </Router>
+      </ThemeProvider>
     </Provider>,
   document.getElementById('root')
 );

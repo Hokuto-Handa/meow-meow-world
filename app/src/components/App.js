@@ -4,17 +4,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import { get } from '../actions';
 import { Link } from 'react-router-dom';
 
-function LinkArea() {
-  return(
-    <div>
-      <div>
-        <Link to="/post">POST</Link>
-      </div>
-    </div>
-  );
-}
+import Container from '@material-ui/core/Container';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import EditIcon from '@material-ui/icons/Edit';
 
-const App = (props) => {
+function App(props) {
   const dispatch = useDispatch();
   const animals = useSelector(state => state.animals);
   //ループしないようにからの配列を第２匹数に設定
@@ -31,34 +31,38 @@ const App = (props) => {
     // const { animals } = this.props;
     const tbody = animals.map((animal, index)=>{
       return(
-      <tr key={animal.id}>
-        <td><Link to={"/edit/"+index}>{index}</Link></td>
-        <td>{animal.name}</td>
-        <td>{animal.age}</td>
-        <td><img className="animal_img" alt={animal.name} src={`http://localhost:8080/images/${animal.image}`} /></td>
-      </tr>
+      <TableRow key={animal.id}>
+        <TableCell>{index}</TableCell>
+        <TableCell align="right">{animal.name}</TableCell>
+        <TableCell align="right">{animal.age}</TableCell>
+        <TableCell align="right"><img className="animal_img" alt={animal.name} src={`http://localhost:8080/images/${animal.image}`} /></TableCell>
+        <TableCell align="right"><Link to={"/edit/"+index}><EditIcon color="primary" /></Link></TableCell>
+      </TableRow>
     )});
     return(
-      <table>
-        <thead>
-          <tr>
-            <th>No.</th>
-            <th>Name</th>
-            <th>Age</th>
-          </tr>
-        </thead>
-        <tbody>
-        {tbody}
-        </tbody>
-      </table>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>No.</TableCell>
+              <TableCell align="right">なまえ</TableCell>
+              <TableCell align="right">年齢</TableCell>
+              <TableCell align="right">イメージ</TableCell>
+              <TableCell align="right"></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+          {tbody}
+          </TableBody>
+        </Table>
+      </TableContainer>
     )
   }
   return(
-    <div>
-      {renderHeader()}
-      {renderTable()}
-      <LinkArea/>
-    </div>
+      <Container maxWidth="sm">
+        {renderHeader()}
+        {renderTable()}
+      </Container>
   )
 }
 
