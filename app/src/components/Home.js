@@ -14,9 +14,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import EditIcon from '@material-ui/icons/Edit';
 
-import { Head1 } from './styles';
+import { Head1 } from './child';
 
-function App(props) {
+function Home() {
   const dispatch = useDispatch();
   const animals = useSelector(state => state.animals);
   //ループしないようにからの配列を第２匹数に設定
@@ -68,4 +68,4 @@ function App(props) {
   )
 }
 
-export default App;
+export default Home;

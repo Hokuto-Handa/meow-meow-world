@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './components/App';
+import Home from './components/Home';
 import Post from './components/Post';
 import Edit from './components/Edit';
+import About from './components/About';
 import { BottomNavi } from './components/BottomNav';
 import { ThemeProvider } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -31,7 +32,8 @@ ReactDOM.render(
             <Switch>
               <Route path="/post" component={Post}/>
               <Route path="/edit/:id" component={Edit}/>
-              <Route path="/" component={App} />
+              <Route path="/about" component={About}/>
+              <Route path="/" component={Home} />
             </Switch>
             <BottomNavi />
           </Router>

@@ -30,7 +30,7 @@ export function BottomNavi() {
     >
       <BottomNavigationAction component={Link} to="/" label="ホーム" icon={<HomeIcon />} />
       <BottomNavigationAction component={Link} to="/post" label="投稿" icon={<AddIcon />} />
-      <BottomNavigationAction label="概要" icon={<InfoIcon />} />
+      <BottomNavigationAction component={Link} to="/about" label="概要" icon={<InfoIcon />} />
     </BottomNav>
   );
 }

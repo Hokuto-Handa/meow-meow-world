@@ -2,8 +2,13 @@ import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Form, Field } from 'react-final-form';
 import { useDropzone } from 'react-dropzone'
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { postIt } from '../actions';
+
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+
+import { Head1, FormPaper } from './child';
 
 let formData = new FormData();
 let file = [];
@@ -14,7 +19,7 @@ function Dropzone() {
     // params.append("image", acceptedFiles[0]);←無効
     file = acceptedFiles;
   }, [])
-  const {getRootProps, getInputProps, isDragActive, acceptedFiles} = useDropzone({ onDrop, accept: 'image/png', maxSize: 1024*1024})
+  const {getRootProps, getInputProps, acceptedFiles} = useDropzone({ onDrop, accept: 'image/png', maxSize: 1024*1024})
   const files = acceptedFiles.map(file => (
     <li key={file.path}>
       {file.path} - {Math.ceil(file.size/1024)} kb
@@ -22,12 +27,10 @@ function Dropzone() {
   ));
   return (
     <section>
-      <div {...getRootProps({className:"dropzone"})}>
+      <div {...getRootProps({className: "dropzone"})}>
         <input {...getInputProps()} />
         {
-          isDragActive ?
-            <p>Drop the files here ...</p> :
-            <p>【画像】ここをクリックするかドラッグアンドドロップしてね.pngのみ</p>
+          <Button variant="outlined">画像を選択（PNGのみ,1MB以下）</Button>
         }
       </div>
       <aside>
@@ -51,63 +54,55 @@ function AnimalForm(props) {
     history.push('/');
     file = [];
   }
-
-  const validate = (values) => {
-    // if (!values.name) {
-    //   alert("nameかけ")
-    //   return { name: 'Enter Name' };
-    // }
-    // if (!values.age) {
-    //   alert("ageかけ")
-    //   return { age: 'Enter Age' };
-    // }
-    // return;
+  const TextFieldAdapter = ({ input, meta, ...rest }) => (
+    <TextField
+      {...input}
+      {...rest}
+      helperText={meta.touched ? meta.error : ''}
+    />
+  );
+  const nameValidate = value => (value ? undefined : '名前を入力してください');
+  const ageValidate = value => {
+    let error = undefined;
+    if(isNaN(value)){
+      error = '半角数字で入力してください';
+    }
+    if(!value){
+      error = '年齢を入力してください';
+    }
+    return error;
   }
-  const { initialValues } = props;
   return(
     <Form
       onSubmit={onSubmit}
-      validate={validate}
-      initialValues={initialValues}
       render={({ handleSubmit, pristine, submitting }) => (
         <form
           onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="name">Name</label>
-            <Field name="name" component="input" type="text" />
+            <Field name="name" type="text" component={TextFieldAdapter} label="なまえ" validate={nameValidate}/>
           </div>
           <div>
-            <label htmlFor="age">Age</label>
-            <Field name="age" component="input" type="text" />
+            <Field name="age" type="number" component={TextFieldAdapter} label="年齢" validate={ageValidate}/>
           </div>
           <Dropzone />
-          <button type="submit" disabled={submitting || pristine}>Submit</button>
+          <Button variant="contained" color="primary" type="submit" disabled={submitting || pristine}>Submit</Button>
         </form>
       )}
      />
     );
 }
 
-function LinkArea() {
-  return(
-    <div>
-      <Link to="/">Index</Link>
-    </div>
-  );
-}
-
 function Post() {
   return(
     <div>
       <header>
-        <h1>this is post</h1>
+        <Head1>どうぶつを投稿</Head1>
       </header>
       <main>
-        <AnimalForm initialValues={{name:"noname"}} />
+        <FormPaper>
+          <AnimalForm />
+        </FormPaper>
       </main>
-      <footer>
-      <LinkArea/>
-      </footer>
     </div>
   );
 }

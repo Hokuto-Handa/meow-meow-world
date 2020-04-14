@@ -7,4 +7,20 @@ export const theme = createMuiTheme({
     primary: red,
     secondary: yellow,
   },
+  typography: {
+    fontFamily: [
+      '"Baloo Paaji 2"',
+      '"Kosugi Maru"',
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  },
 });
