@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { get } from '../actions';
 import { Link } from 'react-router-dom';
 
-import Container from '@material-ui/core/Container';
+
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,6 +13,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import EditIcon from '@material-ui/icons/Edit';
+
+import { Head1 } from './styles';
 
 function App(props) {
   const dispatch = useDispatch();
@@ -23,9 +25,9 @@ function App(props) {
      // eslint-disable-next-line
    },[]);
   const renderHeader = () => (
-      <h1>
+      <Head1>
         Meow Meow World
-      </h1>
+      </Head1>
   );
   const renderTable = () => {
     // const { animals } = this.props;
@@ -59,10 +61,10 @@ function App(props) {
     )
   }
   return(
-      <Container maxWidth="sm">
+      <div>
         {renderHeader()}
         {renderTable()}
-      </Container>
+      </div>
   )
 }
 

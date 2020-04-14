@@ -6,6 +6,7 @@ import Post from './components/Post';
 import Edit from './components/Edit';
 import { BottomNavi } from './components/BottomNav';
 import { ThemeProvider } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
 import { theme } from './theme';
 import * as serviceWorker from './serviceWorker';
 
@@ -25,14 +26,16 @@ const store = createStore(reducer, applyMiddleware(thunk));
 ReactDOM.render(
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <Router>
-          <Switch>
-            <Route path="/post" component={Post}/>
-            <Route path="/edit/:id" component={Edit}/>
-            <Route path="/" component={App} />
-          </Switch>
-          <BottomNavi />
-        </Router>
+        <Container maxWidth="sm">
+          <Router>
+            <Switch>
+              <Route path="/post" component={Post}/>
+              <Route path="/edit/:id" component={Edit}/>
+              <Route path="/" component={App} />
+            </Switch>
+            <BottomNavi />
+          </Router>
+        </Container>
       </ThemeProvider>
     </Provider>,
   document.getElementById('root')
