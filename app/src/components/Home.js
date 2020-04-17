@@ -19,7 +19,7 @@ import { Head1 } from './child';
 function Home() {
   const dispatch = useDispatch();
   const animals = useSelector(state => state.animals);
-  //ループしないようにからの配列を第２匹数に設定
+  //ループしないように空の配列を第２匹数に設定
   useEffect(() => {
      dispatch(get());
      // eslint-disable-next-line

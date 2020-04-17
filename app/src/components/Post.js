@@ -14,9 +14,9 @@ let formData = new FormData();
 let file = [];
 
 function Dropzone() {
-  //params へのデータ追加はSUBMIT内でしないと反映されない
+  //formdata へのデータ追加はSUBMIT内でしないと反映されない
   const onDrop = useCallback(acceptedFiles => {
-    // params.append("image", acceptedFiles[0]);←無効
+    // form.append("image", acceptedFiles[0]);←無効
     file = acceptedFiles;
   }, [])
   const {getRootProps, getInputProps, acceptedFiles} = useDropzone({ onDrop, accept: 'image/png', maxSize: 1024*1024})
@@ -47,7 +47,9 @@ function AnimalForm(props) {
     formData.append("type", "post");
     formData.append("age", values.age);
     formData.append("name", values.name);
-    formData.append("image", file[0]);
+    if(file[0]){
+      formData.append("image", file[0]);
+    }
     await dispatch(postIt(formData));
     //次のpostに備えて初期化
     formData = new FormData();

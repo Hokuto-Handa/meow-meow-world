@@ -53,9 +53,6 @@ function EditForm() {
     formData.append("age", values.age);
     if (file[0]) {
       formData.append("image", file[0]);
-      console.log("ある");
-    }else{
-      console.log("ない")
     }
     await dispatch(postIt(formData));
     //次のEDITに備えて初期化
