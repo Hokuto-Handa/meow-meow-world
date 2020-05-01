@@ -1,27 +1,26 @@
-version: "3.7"
+version: "3"
 services:
   web:
-    image: nginx
+    image: hottiscript/nginx-copy-build
     ports:
-      - 8000:80
+      - 80:80
     volumes:
       - ./app/build:/usr/share/nginx/html
 
   php:
-    build: ./php
-    volumes:
-      -  ./php:/var/www/html/
+    image: hottiscript/php-apache-pdo
     ports:
       - 8080:80
+    volumes:
+      -  ./php:/var/www/html
 
   mysql:
-    image: mysql:5.7
+    image: hottiscript/mysql-animal
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
       MYSQL_DATABASE: database1
       MYSQL_USER: user
       MYSQL_PASSWORD: userpass
-
     volumes:
       - sqlvol:/var/lib/mysql
 

@@ -74,18 +74,19 @@ class DataBase{
     }
     return $imageName;
   }
-  public function initializeData() {
-    $stmt = $this->_pdo->query("select id from animals");
-    $animals = $stmt->fetchAll();
-    foreach ($animals as $animal) {
-      $this->deleteData($animal["id"]);
-    }
-    $stmt = $this->_pdo->prepare("insert into animals (name, age, image)  values (?, ?, ?)");
-    $stmt->execute(["にゃんこ", "3", "cat.png"]);
-    $stmt->execute(["うさこ", "2", "rabbit.png"]);
-    $stmt->execute(["みゃーちゃん", "4", "cat2.png"]);
-    $stmt->execute(["うさピョン", "3", "rabbit2.png"]);
-  }
+
+//   public function initializeData() {
+//     $stmt = $this->_pdo->query("select id from animals");
+//     $animals = $stmt->fetchAll();
+//     foreach ($animals as $animal) {
+//       $this->deleteData($animal["id"]);
+//     }
+//     $stmt = $this->_pdo->prepare("insert into animals (name, age, image)  values (?, ?, ?)");
+//     $stmt->execute(["にゃんこ", "3", "cat.png"]);
+//     $stmt->execute(["うさこ", "2", "rabbit.png"]);
+//     $stmt->execute(["みゃーちゃん", "4", "cat2.png"]);
+//     $stmt->execute(["うさピョン", "3", "rabbit2.png"]);
+//   }
 }
 
   $data = new DataBase();
@@ -94,16 +95,7 @@ class DataBase{
   $age;
   $image;
 
-//0分代に誰か開いたら初期化・・・
-  if ($timer == null) {
-    $timer = 13;
-  }
-  $today = getdate();
-  $min = $today["minutes"];
-  if($min == $timer){
-    $data->initializeData();
-  $timer = 30;
-  }
+
 
   if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $animal = $data->getData();

@@ -100,7 +100,7 @@ function EditForm() {
               <Field name="age" type="number" component={TextFieldAdapter} label="年齢" validate={ageValidate}/>
             </div>
             <div>
-              <img className="animal_img" alt={animal.name} src={`http://localhost:8080/images/${animal.image}`} />
+              <img className="animal_img" alt={animal.name} src={`localhost:8080/images/${animal.image}`} />
             </div>
             <Dropzone />
             <Button variant="contained" color="primary" type="submit" disabled={submitting}>Submit</Button>
