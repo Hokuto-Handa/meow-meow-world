@@ -15,14 +15,9 @@ services:
       -  ./php:/var/www/html
 
   mysql:
-    image: hottiscript/mysql-animal
+    image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
       MYSQL_DATABASE: database1
       MYSQL_USER: user
       MYSQL_PASSWORD: userpass
-    volumes:
-      - sqlvol:/var/lib/mysql
-
-volumes:
-  sqlvol:

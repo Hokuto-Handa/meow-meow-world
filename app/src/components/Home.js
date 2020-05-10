@@ -37,7 +37,6 @@ function Home() {
         <TableCell>{index}</TableCell>
         <TableCell align="right">{animal.name}</TableCell>
         <TableCell align="right">{animal.age}</TableCell>
-        <TableCell align="right"><img className="animal_img" alt={animal.name} src={`http://localhost:8080/images/${animal.image}`} /></TableCell>
         <TableCell align="right"><Link to={"/edit/"+index}><EditIcon color="secondary" /></Link></TableCell>
       </TableRow>
     )});
@@ -49,7 +48,6 @@ function Home() {
               <TableCell>No.</TableCell>
               <TableCell align="right">なまえ</TableCell>
               <TableCell align="right">年齢</TableCell>
-              <TableCell align="right">イメージ</TableCell>
               <TableCell align="right"></TableCell>
             </TableRow>
           </TableHead>

@@ -47,9 +47,9 @@ function AnimalForm(props) {
     formData.append("type", "post");
     formData.append("age", values.age);
     formData.append("name", values.name);
-    if(file[0]){
-      formData.append("image", file[0]);
-    }
+    // if(file[0]){
+    //   formData.append("image", file[0]);
+    // }
     await dispatch(postIt(formData));
     //次のpostに備えて初期化
     formData = new FormData();
