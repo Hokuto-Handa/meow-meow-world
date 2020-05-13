@@ -1,18 +1,18 @@
 version: "3"
 services:
   web:
-    image: hottiscript/nginx-copy-build
+    build: ./app
     ports:
       - 80:80
     volumes:
       - ./app/build:/usr/share/nginx/html
 
   php:
-    image: hottiscript/php-apache-pdo
+    build: ./php
     ports:
       - 8080:80
     volumes:
-      -  ./php:/var/www/html
+      -  ./php/app:/var/www/html
 
   mysql:
     image: hottiscript/mysql-animal

@@ -37,7 +37,7 @@ function Home() {
         <TableCell>{index}</TableCell>
         <TableCell align="right">{animal.name}</TableCell>
         <TableCell align="right">{animal.age}</TableCell>
-        <TableCell align="right"><img className="animal_img" alt={animal.name} src={`http://localhost:8080/images/${animal.image}`} /></TableCell>
+        <TableCell align="right"><img className="animal_img" alt={animal.name} src={`https://meow-bucket.s3-ap-northeast-1.amazonaws.com/${animal.image}`} /></TableCell>
         <TableCell align="right"><Link to={"/edit/"+index}><EditIcon color="secondary" /></Link></TableCell>
       </TableRow>
     )});
