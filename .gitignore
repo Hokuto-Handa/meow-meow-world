@@ -1,3 +1,4 @@
-php/config.php
+php/app/config.php
+php/credentials
 php/images
 .DS_Store
