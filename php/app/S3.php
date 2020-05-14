@@ -1,10 +1,6 @@
 <?php
 
-// require_once(__DIR__ . '/config.php');
 require './vendor/autoload.php';
-// header('Content-type:application/json; cahrset=UTF-8');
-// header("Access-Control-Allow-Origin: *");
-// header("Access-Control-Allow-Origin: http://localhost:3000");
 use Aws\S3\S3Client;
 use Aws\Exception\AwsException;
 
@@ -28,6 +24,12 @@ class MyS3Client{
         'Bucket' => 'meow-bucket',
         'Key' => $key,
         'SourceFile' => $file,
+    ]);
+  }
+  public function deleteFileFromS3($key){
+    $result = $this->_client->deleteObject([
+        'Bucket' => 'meow-bucket',
+        'Key' => $key
     ]);
   }
 }
