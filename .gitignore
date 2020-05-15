@@ -1,4 +1,5 @@
 php/app/config.php
 php/credentials
 php/images
+docker-compose.yml
 .DS_Store
