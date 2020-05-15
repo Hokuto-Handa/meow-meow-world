@@ -19,6 +19,10 @@ export const Head2 = styled.h2`
   color: #e91e63;
 `;
 
+export const Head3 = styled(Head2)`
+color: #ff9800;
+`;
+
 export const CenterP = styled.p`
   text-align: center;
 `

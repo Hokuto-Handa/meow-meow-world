@@ -56,7 +56,7 @@ class DataBase {
   private function _saveImage(){
     $image = $_FILES["image"]["tmp_name"];
     if ($image == null) {
-      $imageName = "no_image.jpg";
+      $imageName = "no_image.png";
     } else {
       $imageName = sprintf(
         '%s_%s.png',

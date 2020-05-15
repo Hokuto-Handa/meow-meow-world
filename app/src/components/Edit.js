@@ -30,7 +30,7 @@ function Dropzone() {
       <div {...getRootProps({className: "dropzone"})}>
         <input {...getInputProps()} />
         {
-          <Button variant="outlined">画像を変更（PNGのみ,1MB以下）</Button>
+          <Button variant="outlined">画像を変更<br/>(PNGのみ,1MB以下)</Button>
         }
       </div>
       <aside>
