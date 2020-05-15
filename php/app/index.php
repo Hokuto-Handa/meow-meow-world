@@ -3,7 +3,7 @@
 require_once(__DIR__ . '/Database.php');
 require_once(__DIR__ . '/S3.php');
 header('Content-type:application/json; cahrset=UTF-8');
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: http://ec2-13-114-28-204.ap-northeast-1.compute.amazonaws.com");
 
   $data = new DataBase();
   $id;
