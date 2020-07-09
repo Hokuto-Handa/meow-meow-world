@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Form, Field } from 'react-final-form';
 import { useDropzone } from 'react-dropzone'
 import { useHistory } from 'react-router-dom';
-import { postIt } from '../actions';
+// import { postIt } from '../actions';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -50,7 +50,8 @@ function AnimalForm(props) {
     if(file[0]){
       formData.append("image", file[0]);
     }
-    await dispatch(postIt(formData));
+    // await dispatch(postIt(formData));
+    alert('ご利用ありがとうございます（投稿はされません）')
     //次のpostに備えて初期化
     formData = new FormData();
     history.push('/');

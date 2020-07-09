@@ -3,10 +3,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Form, Field } from 'react-final-form';
 import { useDropzone } from 'react-dropzone'
 import { useHistory, useParams } from 'react-router-dom';
-import { postIt } from '../actions';
+// import { postIt } from '../actions';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+
+import Img1 from './images/cat.png';
+import Img2 from './images/rabbit.png';
+import Img3 from './images/fish_donko.png';
+import Img4 from './images/fukuro.png';
+
 
 import { Head1, DelBtn, FormPaper } from './child';
 
@@ -54,7 +60,8 @@ function EditForm() {
     if (file[0]) {
       formData.append("image", file[0]);
     }
-    await dispatch(postIt(formData));
+    // await dispatch(postIt(formData));
+    alert('ご利用ありがとうございます（編集はされません）');
     //次のEDITに備えて初期化
     file = [];
     formData = new FormData();
@@ -63,7 +70,8 @@ function EditForm() {
   const handleDelete = async () => {
     formData.append("type", "delete");
     formData.append("id", animal.id);
-    await dispatch(postIt(formData));
+    // await dispatch(postIt(formData));
+    alert("ご利用ありがとうございます（削除はされません）")
     formData = new FormData();
     history.push('/');
   }
@@ -85,6 +93,8 @@ function EditForm() {
     }
     return error;
   }
+    const imgArray = [Img1, Img2, Img3, Img4]
+
   return(
     <div>
       <Form
@@ -100,7 +110,7 @@ function EditForm() {
               <Field name="age" type="number" component={TextFieldAdapter} label="年齢" validate={ageValidate}/>
             </div>
             <div>
-              <img className="animal_img" alt={animal.name} src={`https://meow-bucket.s3-ap-northeast-1.amazonaws.com/${animal.image}`} />
+              <img className="animal_img" alt={animal.name} src={imgArray[animal.id]} />
             </div>
             <Dropzone />
             <Button variant="contained" color="primary" type="submit" disabled={submitting}>Submit</Button>

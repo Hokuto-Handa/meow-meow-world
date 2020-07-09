@@ -1,13 +1,16 @@
 # Meow Meow World
 
-## http://ec2-13-114-28-204.ap-northeast-1.compute.amazonaws.com
+## http://hottigram.com/meow-meow-world/
 
-## 概要
+就職活動時にポートフォリオとしてAWSで公開していたものを、
+通常のレンタルサーバーに移して公開しているものです（AWSはお金がかかるので・・・）。
+それに伴いアップロード機能などはなくなりました。
+
+## 概要（AWS公開当時）
+
 - AWSのEC2コンテナにデプロイ(ECSを使用)
 - 画像ファイルはAWSのS3に保存
 - データベースはAWSのRDSを使用
 - Dockerで環境構築
 - フロントエンドはReactで構築（ベースイメージはnginx）
 - バックエンドはphpで構築（ベースイメージはphp:apache）
-
-### このブランチはデータベース初期化後の本番用イメージ作成のため使用した

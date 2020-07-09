@@ -16,6 +16,11 @@ import EditIcon from '@material-ui/icons/Edit';
 
 import { Head1 } from './child';
 
+import Img1 from './images/cat.png';
+import Img2 from './images/rabbit.png';
+import Img3 from './images/fish_donko.png';
+import Img4 from './images/fukuro.png';
+
 function Home() {
   const dispatch = useDispatch();
   const animals = useSelector(state => state.animals);
@@ -29,6 +34,8 @@ function Home() {
         Meow Meow World
       </Head1>
   );
+
+  const imgArray = [Img1, Img2, Img3, Img4]
   const renderTable = () => {
     // const { animals } = this.props;
     const tbody = animals.map((animal, index)=>{
@@ -37,7 +44,7 @@ function Home() {
         <TableCell>{index}</TableCell>
         <TableCell align="right">{animal.name}</TableCell>
         <TableCell align="right">{animal.age}</TableCell>
-        <TableCell align="right"><img className="animal_img" alt={animal.name} src={`https://meow-bucket.s3-ap-northeast-1.amazonaws.com/${animal.image}`} /></TableCell>
+        <TableCell align="right"><img className="animal_img" alt={animal.name} src={imgArray[animal.id]} /></TableCell>
         <TableCell align="right"><Link to={"/edit/"+index}><EditIcon color="secondary" /></Link></TableCell>
       </TableRow>
     )});
