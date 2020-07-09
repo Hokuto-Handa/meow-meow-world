@@ -22,7 +22,7 @@ function About() {
           </p>
           <Head2><FeedbackIcon />About Me</Head2>
           <p>
-            ウェブ系のエンジニア志望です。学習内容はJavaScript(React), PHP, Swiftなど。<br/>
+            エンジニア志望です。学習内容はJavaScript(React), PHP, Swiftなど。<br/>
             ポートフォリオサイトは<a href="https://hokuto-handa.github.io/my-portfolio/">こちら</a>。
           </p>
           <Head3><ErrorIcon style={{ color: orange[500] }} />Attention</Head3>
